@@ -6,8 +6,8 @@ A fully functional, professionally designed e-commerce website for a trendy acce
 ---
 
 
-🔗 [View Live Website](#) <!-- Add your GitHub Pages link here -->
-
+🔗 [View Live Website]
+https://sruthiranjani.github.io/website/
 ---
 
  Preview
