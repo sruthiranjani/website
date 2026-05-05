@@ -18,8 +18,8 @@ const products = [
   },
   {
     id: 3,
-    name: "Designer Jhumkas Set",
-    price: 122,
+    name: "Pink Bracelet",
+    price: 70,
     category: "Earrings",
     image: "images/pink_bracelet.jpeg",
     description: "A set of 4 designer jhumkas for every occasion.",
