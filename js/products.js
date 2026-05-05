@@ -20,9 +20,9 @@ const products = [
     id: 3,
     name: "Pink Bracelet",
     price: 70,
-    category: "Earrings",
+    category: "Bracelets",
     image: "images/pink_bracelet.jpeg",
-    description: "A set of 4 designer jhumkas for every occasion.",
+    description: "Elegant pink bracelet for every occasion.",
   },
   {
     id: 4,
