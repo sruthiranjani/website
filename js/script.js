@@ -21,37 +21,40 @@ function updateCartBadge() {
  */
 function toggleHamburgerMenu() {
   const hamburgerBtn = document.querySelector(".hamburger-btn");
-  // Try nav-center first, then nav-links as fallback
-  const navCenter = document.querySelector(".nav-center") || document.querySelector(".nav-links");
+  const navLinks = document.querySelector(".nav-links");
 
-  if (hamburgerBtn && navCenter) {
+  if (hamburgerBtn && navLinks) {
+    let isOpen = false;
+
     hamburgerBtn.addEventListener("click", () => {
+      isOpen = !isOpen;
       hamburgerBtn.classList.toggle("active");
-      navCenter.classList.toggle("active");
-      // Also toggle display for nav-links
-      if (navCenter.style.display === "flex") {
-        navCenter.style.display = "none";
+
+      if (isOpen) {
+        navLinks.style.cssText = `
+          display: flex !important;
+          flex-direction: column;
+          position: fixed;
+          top: 70px;
+          left: 0;
+          right: 0;
+          background: #FAFAF8;
+          padding: 1.5rem 2rem;
+          z-index: 9999;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+          border-bottom: 2px solid #C9A96E;
+          gap: 1rem;
+        `;
       } else {
-        navCenter.style.display = "flex";
-        navCenter.style.flexDirection = "column";
-        navCenter.style.position = "absolute";
-        navCenter.style.top = "70px";
-        navCenter.style.left = "0";
-        navCenter.style.right = "0";
-        navCenter.style.background = "var(--bg-primary)";
-        navCenter.style.padding = "1.5rem";
-        navCenter.style.zIndex = "999";
-        navCenter.style.boxShadow = "0 2px 16px rgba(0,0,0,0.07)";
-        navCenter.style.borderBottom = "1px solid var(--border-color)";
+        navLinks.style.cssText = "display: none !important;";
       }
     });
 
-    // Close menu when link clicked
-    navCenter.querySelectorAll("a").forEach((link) => {
+    navLinks.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
+        isOpen = false;
         hamburgerBtn.classList.remove("active");
-        navCenter.classList.remove("active");
-        navCenter.style.display = "none";
+        navLinks.style.cssText = "display: none !important;";
       });
     });
   }
@@ -723,14 +726,19 @@ async function loadOrdersPage() {
  * Initialize login/signup tabs
  */
 function initLoginPage() {
+  // Clear any old/stale user data so login page always shows fresh
+  // Only redirect if user explicitly logged in before
   const user = getUser();
-  if (user) {
+  if (user && user.email && user.name !== "User") {
     showToast(`Welcome back, ${user.name}!`, [], 1500);
     setTimeout(() => {
       navigateToURL("orders.html");
     }, 1500);
     return;
   }
+
+  // Clear stale user data
+  clearUser();
 
   initTabs();
   handleSignUp();
