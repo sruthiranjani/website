@@ -21,7 +21,7 @@ const products = [
     name: "Designer Jhumkas Set",
     price: 122,
     category: "Earrings",
-    image: "images/pink-bracelet.jpeg",
+    image: "images/pink_bracelet.jpeg",
     description: "A set of 4 designer jhumkas for every occasion.",
   },
   {
