@@ -21,12 +21,29 @@ function updateCartBadge() {
  */
 function toggleHamburgerMenu() {
   const hamburgerBtn = document.querySelector(".hamburger-btn");
-  const navCenter = document.querySelector(".nav-center");
+  // Try nav-center first, then nav-links as fallback
+  const navCenter = document.querySelector(".nav-center") || document.querySelector(".nav-links");
 
   if (hamburgerBtn && navCenter) {
     hamburgerBtn.addEventListener("click", () => {
       hamburgerBtn.classList.toggle("active");
       navCenter.classList.toggle("active");
+      // Also toggle display for nav-links
+      if (navCenter.style.display === "flex") {
+        navCenter.style.display = "none";
+      } else {
+        navCenter.style.display = "flex";
+        navCenter.style.flexDirection = "column";
+        navCenter.style.position = "absolute";
+        navCenter.style.top = "70px";
+        navCenter.style.left = "0";
+        navCenter.style.right = "0";
+        navCenter.style.background = "var(--bg-primary)";
+        navCenter.style.padding = "1.5rem";
+        navCenter.style.zIndex = "999";
+        navCenter.style.boxShadow = "0 2px 16px rgba(0,0,0,0.07)";
+        navCenter.style.borderBottom = "1px solid var(--border-color)";
+      }
     });
 
     // Close menu when link clicked
@@ -34,6 +51,7 @@ function toggleHamburgerMenu() {
       link.addEventListener("click", () => {
         hamburgerBtn.classList.remove("active");
         navCenter.classList.remove("active");
+        navCenter.style.display = "none";
       });
     });
   }
@@ -253,9 +271,7 @@ function loadProductDetail() {
         },
         {
           text: "Continue Shopping",
-          callback: () => {
-            navigateToURL("shop.html");
-          },
+          callback: () => { navigateToURL("shop.html"); },
           isPrimary: false,
         },
       ]);
