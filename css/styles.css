@@ -1178,7 +1178,7 @@ p {
   }
 
   .nav-center {
-    position: absolute;
+    position: fixed;
     top: 60px;
     left: 0;
     right: 0;
@@ -1190,9 +1190,9 @@ p {
     overflow: hidden;
     transition: max-height var(--transition-smooth);
     display: none;
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: var(--shadow-soft);
-    z-index: 999;
+    border-bottom: 2px solid var(--accent-primary);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    z-index: 9999;
   }
 
   .nav-center.active {
@@ -1228,6 +1228,12 @@ p {
 
   .hero p {
     font-size: 1rem;
+  }
+
+  /* Make hero smaller on mobile */
+  .hero {
+    min-height: 50vh !important;
+    padding: 2rem 1.5rem;
   }
 
   .hero-buttons {
