@@ -324,7 +324,7 @@
               </div>
               <div class="account-menu-arrow">›</div>
             </a>
-            <a href="#" class="account-menu-item" onclick="toggleWishlist()">
+            <a href="wishlist.html" class="account-menu-item"></a>
               <div class="account-menu-icon">❤️</div>
               <div class="account-menu-text">
                 <strong>Wishlist</strong>
@@ -584,8 +584,9 @@
 
       // Wishlist
       function toggleWishlist() {
-        alert('Wishlist feature coming soon! 💛');
-      }
+      window.location.href = 'wishlist.html';
+    }
+      
 
       // Logout
       function handleLogout() {
