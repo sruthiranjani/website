@@ -239,6 +239,7 @@ function loadProductDetail() {
           </div>
           <button class="btn btn-primary btn-large" id="add-to-cart-btn">Add to Cart</button>
         </div>
+        <button class="btn btn-secondary" id="add-to-wishlist-btn" style="width:100%;margin-bottom:1rem;">🤍 Add to Wishlist</button>
         
         <a href="shop.html" class="back-link">← Back to Shop</a>
       </div>
@@ -270,9 +271,7 @@ function loadProductDetail() {
       showToast("Added to cart!", [
         {
           text: "View Cart",
-          callback: () => {
-            navigateToURL("cart.html");
-          },
+          callback: () => { navigateToURL("cart.html"); },
           isPrimary: true,
         },
         {
@@ -282,6 +281,34 @@ function loadProductDetail() {
         },
       ]);
     });
+
+    // Add to wishlist button
+    const wishlistBtn = document.getElementById("add-to-wishlist-btn");
+    if (wishlistBtn) {
+      // Check if already in wishlist
+      const wishlist = JSON.parse(localStorage.getItem('wm_wishlist')) || [];
+      const alreadyWishlisted = wishlist.find(w => w.id === product.id);
+      if (alreadyWishlisted) {
+        wishlistBtn.textContent = '❤️ Wishlisted';
+        wishlistBtn.style.borderColor = '#C9A96E';
+        wishlistBtn.style.color = '#C9A96E';
+      }
+
+      wishlistBtn.addEventListener("click", () => {
+        const wishlist = JSON.parse(localStorage.getItem('wm_wishlist')) || [];
+        const exists = wishlist.find(w => w.id === product.id);
+        if (!exists) {
+          wishlist.push(product);
+          localStorage.setItem('wm_wishlist', JSON.stringify(wishlist));
+          wishlistBtn.textContent = '❤️ Wishlisted';
+          wishlistBtn.style.borderColor = '#C9A96E';
+          wishlistBtn.style.color = '#C9A96E';
+          showToast("Added to wishlist! ❤️", [], 2000);
+        } else {
+          showToast("Already in wishlist!", [], 2000);
+        }
+      });
+    }
   }
 }
 
@@ -374,10 +401,11 @@ function loadShopPage() {
         return;
       }
 
-      // Search by name OR category
+      // Search by name OR category using fuzzy match
       const filtered = products.filter((p) =>
-        p.name.toLowerCase().includes(query) ||
-        p.category.toLowerCase().includes(query)
+        fuzzyMatch(p.name, query) ||
+        fuzzyMatch(p.category, query) ||
+        fuzzyMatch(p.description, query)
       );
 
       if (filtered.length === 0) {
@@ -405,7 +433,42 @@ function loadShopPage() {
   }
 }
 
-/* ==================== CART PAGE FUNCTIONS ==================== */
+/**
+ * Move item from cart to wishlist
+ */
+function moveToWishlist(productId) {
+  const cart = getCart();
+  const item = cart.find(i => i.id === productId);
+  if (item) {
+    // Add to wishlist
+    const wishlist = JSON.parse(localStorage.getItem('wm_wishlist')) || [];
+    const exists = wishlist.find(w => w.id === productId);
+    if (!exists) {
+      wishlist.push(item);
+      localStorage.setItem('wm_wishlist', JSON.stringify(wishlist));
+    }
+    // Remove from cart
+    removeFromCart(productId);
+    updateCartBadge();
+    renderCartItems();
+    showToast("Moved to Wishlist ❤️", [], 2000);
+  }
+}
+
+/* ==================== SEARCH HELPER ==================== */
+
+/**
+ * Fuzzy search — matches even partial/different case input
+ */
+function fuzzyMatch(text, query) {
+  text = text.toLowerCase();
+  query = query.toLowerCase().trim();
+  // Direct include check
+  if (text.includes(query)) return true;
+  // Check each word in query
+  const words = query.split(/\s+/);
+  return words.every(word => text.includes(word));
+}
 
 /**
  * Render cart items on cart page
@@ -448,7 +511,10 @@ function renderCartItems() {
           <button class="qty-btn" onclick="handleRemoveCartItem(${item.id}, 1)">+</button>
         </div>
         <div class="cart-item-subtotal">₹${item.price * item.quantity}</div>
-        <button class="cart-remove-btn" onclick="handleRemoveCartItem(${item.id}, 'remove')">✕</button>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <button class="cart-remove-btn" onclick="handleRemoveCartItem(${item.id}, 'remove')" title="Remove">✕</button>
+          <button class="cart-remove-btn" onclick="moveToWishlist(${item.id})" title="Move to Wishlist" style="background:rgba(201,169,110,0.1);color:#C9A96E;border:1px solid #C9A96E;">❤️</button>
+        </div>
       </div>
     `;
   });
