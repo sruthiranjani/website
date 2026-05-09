@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist - WithMore Gifts</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .wishlist-section {
+        padding: 3rem 0;
+        min-height: 70vh;
+      }
+      .wishlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .wishlist-card {
+        background: var(--bg-card);
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+        overflow: hidden;
+        position: relative;
+      }
+      .wishlist-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .wishlist-card-info {
+        padding: 1rem;
+      }
+      .wishlist-card-info h3 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+      }
+      .wishlist-card-info p {
+        color: var(--accent-primary);
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+      }
+      .wishlist-remove {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      .empty-wishlist {
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+      .empty-wishlist h2 {
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+      .empty-wishlist p {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+      }
+      @media (max-width: 480px) {
+        .wishlist-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <a href="index.html">
+          <img src="images/logo.jpeg" alt="WithMore Gifts" />
+        </a>
+      </div>
+      <div class="navbar-brand">WithMore Gifts</div>
+      <div class="nav-right">
+        <div class="nav-links nav-center">
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <a href="wishlist.html" class="nav-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor" />
+          </svg>
+        </a>
+        <a href="account.html" class="nav-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" />
+          </svg>
+        </a>
+        <a href="cart.html" class="nav-icon" style="position: relative">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+          </svg>
+          <div class="cart-badge">0</div>
+        </a>
+        <button class="hamburger-btn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- WISHLIST SECTION -->
+    <section class="wishlist-section">
+      <div class="container">
+        <h1>My Wishlist ❤️</h1>
+        <div id="wishlistContent"></div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column footer-logo">
+            <img src="images/logo.jpeg" alt="WithMore Gifts" />
+            <p class="footer-tagline">Accessories for every moment</p>
+          </div>
+          <div class="footer-column">
+            <h4>Quick Links</h4>
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer-column">
+            <h4>Account</h4>
+            <a href="account.html">My Account</a>
+            <a href="orders.html">My Orders</a>
+          </div>
+          <div class="footer-column">
+            <h4>Policy</h4>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms & Conditions</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          © 2026 WithMore Gifts. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+      // ============================================
+      // WISHLIST PAGE LOGIC
+      // ============================================
+
+      document.addEventListener('DOMContentLoaded', () => {
+        updateCartBadge();
+        toggleHamburgerMenu();
+        loadWishlist();
+      });
+
+      function loadWishlist() {
+        const wishlist = JSON.parse(localStorage.getItem('wm_wishlist')) || [];
+        const container = document.getElementById('wishlistContent');
+
+        if (wishlist.length === 0) {
+          container.innerHTML = `
+            <div class="empty-wishlist">
+              <h2>Your wishlist is empty!</h2>
+              <p>Save products you love by clicking the ❤️ on product pages</p>
+              <button class="btn btn-primary" onclick="navigateToURL('shop.html')">Shop Now →</button>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = `
+          <div class="wishlist-grid">
+            ${wishlist.map(item => `
+              <div class="wishlist-card">
+                <img src="${item.image}" alt="${item.name}" />
+                <button class="wishlist-remove" onclick="removeFromWishlist(${item.id})">✕</button>
+                <div class="wishlist-card-info">
+                  <h3>${item.name}</h3>
+                  <p>₹${item.price}</p>
+                  <button class="btn btn-primary" style="width:100%;font-size:0.85rem;padding:0.6rem;"
+                    onclick="navigateToURL('product.html', {id: ${item.id}})">View Details</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      function removeFromWishlist(id) {
+        let wishlist = JSON.parse(localStorage.getItem('wm_wishlist')) || [];
+        wishlist = wishlist.filter(item => item.id !== id);
+        localStorage.setItem('wm_wishlist', JSON.stringify(wishlist));
+        loadWishlist();
+      }
+    </script>
+  </body>
+</html>
