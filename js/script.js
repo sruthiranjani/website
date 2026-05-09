@@ -23,41 +23,44 @@ function toggleHamburgerMenu() {
   const hamburgerBtn = document.querySelector(".hamburger-btn");
   const navLinks = document.querySelector(".nav-links");
 
-  if (hamburgerBtn && navLinks) {
-    let isOpen = false;
+  if (!hamburgerBtn || !navLinks) return;
 
-    hamburgerBtn.addEventListener("click", () => {
-      isOpen = !isOpen;
-      hamburgerBtn.classList.toggle("active");
+  let isOpen = false;
 
-      if (isOpen) {
-        navLinks.style.cssText = `
-          display: flex !important;
-          flex-direction: column;
-          position: fixed;
-          top: 70px;
-          left: 0;
-          right: 0;
-          background: #FAFAF8;
-          padding: 1.5rem 2rem;
-          z-index: 9999;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-          border-bottom: 2px solid #C9A96E;
-          gap: 1rem;
-        `;
-      } else {
-        navLinks.style.cssText = "display: none !important;";
-      }
+  hamburgerBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    isOpen = !isOpen;
+    hamburgerBtn.classList.toggle("active");
+
+    if (isOpen) {
+      // Force show — override any CSS
+      navLinks.setAttribute("style",
+        "display:flex!important;flex-direction:column;position:fixed;top:65px;left:0;right:0;" +
+        "background:#FAFAF8;padding:1.5rem 2rem;z-index:99999;" +
+        "box-shadow:0 8px 24px rgba(0,0,0,0.15);border-bottom:2px solid #C9A96E;gap:1rem;"
+      );
+    } else {
+      navLinks.setAttribute("style", "display:none!important;");
+    }
+  });
+
+  // Close when link clicked
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      isOpen = false;
+      hamburgerBtn.classList.remove("active");
+      navLinks.setAttribute("style", "display:none!important;");
     });
+  });
 
-    navLinks.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        isOpen = false;
-        hamburgerBtn.classList.remove("active");
-        navLinks.style.cssText = "display: none !important;";
-      });
-    });
-  }
+  // Close when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!hamburgerBtn.contains(e.target) && !navLinks.contains(e.target)) {
+      isOpen = false;
+      hamburgerBtn.classList.remove("active");
+      navLinks.setAttribute("style", "display:none!important;");
+    }
+  });
 }
 
 /**
