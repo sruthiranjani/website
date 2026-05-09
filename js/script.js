@@ -357,22 +357,28 @@ function loadShopPage() {
   const searchInput = document.querySelector(".search-input");
   if (searchInput) {
     searchInput.addEventListener("input", () => {
-      const query = searchInput.value.toLowerCase();
-      const activeTab = document.querySelector(".filter-tab.active");
-      const activeCategory = activeTab
-        ? activeTab.getAttribute("data-category")
-        : "All";
+      const query = searchInput.value.toLowerCase().trim();
 
-      let filtered = products;
-      if (activeCategory !== "All") {
-        filtered = filtered.filter((p) => p.category === activeCategory);
-      }
-      filtered = filtered.filter((p) =>
-        p.name.toLowerCase().includes(query)
-      );
+      // Reset filter tabs to "All" when searching
+      const filterTabs = document.querySelectorAll(".filter-tab");
+      filterTabs.forEach((t) => t.classList.remove("active"));
+      const allTab = document.querySelector(".filter-tab[data-category='All']");
+      if (allTab) allTab.classList.add("active");
 
       const gridContainer = document.querySelector(".product-grid");
       if (!gridContainer) return;
+
+      // If search is empty show all products
+      if (!query) {
+        renderProductGrid("All");
+        return;
+      }
+
+      // Search by name OR category
+      const filtered = products.filter((p) =>
+        p.name.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query)
+      );
 
       if (filtered.length === 0) {
         gridContainer.innerHTML =
