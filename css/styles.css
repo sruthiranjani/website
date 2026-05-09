@@ -1164,7 +1164,7 @@ p {
 
   /* Hide nav links on mobile - goes into hamburger */
   .nav-links {
-    display: none !important;
+    display: none;
   }
 
   /* Show hamburger button */
@@ -1179,25 +1179,32 @@ p {
 
   .nav-center {
     position: fixed;
-    top: 60px;
+    top: 65px;
     left: 0;
     right: 0;
     flex-direction: column;
-    background: var(--bg-primary);
-    padding: var(--spacing-lg);
-    gap: var(--spacing-md);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height var(--transition-smooth);
+    background: #FAFAF8;
+    padding: 1.5rem 2rem;
+    gap: 1.2rem;
     display: none;
-    border-bottom: 2px solid var(--accent-primary);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    z-index: 9999;
+    border-bottom: 2px solid #C9A96E;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    z-index: 99999;
   }
 
   .nav-center.active {
-    max-height: 300px;
     display: flex;
+  }
+
+  .nav-center a {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .nav-center a:last-child {
+    border-bottom: none;
   }
 
   .grid-2,
@@ -1230,10 +1237,9 @@ p {
     font-size: 1rem;
   }
 
-  /* Make hero smaller on mobile */
   .hero {
-    min-height: 50vh !important;
-    padding: 2rem 1.5rem;
+    min-height: 45vh !important;
+    padding: 2rem 1.5rem !important;
   }
 
   .hero-buttons {
