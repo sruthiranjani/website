@@ -499,7 +499,7 @@ function renderCartItems() {
   let html = "";
   cart.forEach((item) => {
     html += `
-      <div class="cart-item">
+      <div class="cart-item" id="cart-item-${item.id}">
         <img src="${item.image}" alt="${item.name}" class="cart-item-img" />
         <div class="cart-item-details">
           <h3>${item.name}</h3>
@@ -511,9 +511,55 @@ function renderCartItems() {
           <button class="qty-btn" onclick="handleRemoveCartItem(${item.id}, 1)">+</button>
         </div>
         <div class="cart-item-subtotal">₹${item.price * item.quantity}</div>
-        <div style="display:flex;gap:0.5rem;align-items:center;">
-          <button class="cart-remove-btn" onclick="handleRemoveCartItem(${item.id}, 'remove')" title="Remove">✕</button>
-          <button class="cart-remove-btn" onclick="moveToWishlist(${item.id})" title="Move to Wishlist" style="background:rgba(201,169,110,0.1);color:#C9A96E;border:1px solid #C9A96E;">❤️</button>
+        <button class="cart-remove-btn" onclick="showRemovePopup(${item.id})">✕</button>
+
+        <!-- Remove Popup -->
+        <div class="remove-popup" id="popup-${item.id}" style="
+          display:none;
+          position:absolute;
+          right:0;
+          top:100%;
+          background:white;
+          border:1px solid #EBEBEB;
+          border-radius:12px;
+          padding:1rem;
+          box-shadow:0 4px 16px rgba(0,0,0,0.15);
+          z-index:100;
+          min-width:220px;
+          text-align:center;
+        ">
+          <p style="margin-bottom:0.8rem;font-weight:500;">Remove this item?</p>
+          <button onclick="moveToWishlist(${item.id})" style="
+            width:100%;
+            padding:0.7rem;
+            margin-bottom:0.5rem;
+            background:rgba(201,169,110,0.1);
+            color:#C9A96E;
+            border:1px solid #C9A96E;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:0.9rem;
+          ">❤️ Move to Wishlist</button>
+          <button onclick="handleRemoveCartItem(${item.id}, 'remove')" style="
+            width:100%;
+            padding:0.7rem;
+            background:#fff0f0;
+            color:#ff4444;
+            border:1px solid #ff4444;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:0.9rem;
+          ">✕ Remove from Cart</button>
+          <button onclick="closeRemovePopup(${item.id})" style="
+            width:100%;
+            padding:0.5rem;
+            margin-top:0.3rem;
+            background:transparent;
+            color:#6B6B6B;
+            border:none;
+            cursor:pointer;
+            font-size:0.85rem;
+          ">Cancel</button>
         </div>
       </div>
     `;
@@ -521,11 +567,64 @@ function renderCartItems() {
 
   cartContainer.innerHTML = html;
 
+  // Make cart items position relative for popup
+  document.querySelectorAll('.cart-item').forEach(item => {
+    item.style.position = 'relative';
+  });
+
   // Update totals
   const total = getCartTotal();
   const totalDiv = document.querySelector(".cart-total");
   if (totalDiv) {
     totalDiv.innerHTML = `<h3>Order Total: ₹${total}</h3>`;
+  }
+}
+
+/**
+ * Show remove popup
+ */
+function showRemovePopup(productId) {
+  // Close all other popups first
+  document.querySelectorAll('.remove-popup').forEach(p => p.style.display = 'none');
+  const popup = document.getElementById(`popup-${productId}`);
+  if (popup) popup.style.display = 'block';
+
+  // Close popup when clicking outside
+  setTimeout(() => {
+    document.addEventListener('click', function closePopup(e) {
+      if (!popup.contains(e.target)) {
+        popup.style.display = 'none';
+        document.removeEventListener('click', closePopup);
+      }
+    });
+  }, 100);
+}
+
+/**
+ * Close remove popup
+ */
+function closeRemovePopup(productId) {
+  const popup = document.getElementById(`popup-${productId}`);
+  if (popup) popup.style.display = 'none';
+}
+
+/**
+ * Move item from cart to wishlist
+ */
+function moveToWishlist(productId) {
+  const cart = getCart();
+  const item = cart.find(i => i.id === productId);
+  if (item) {
+    const wishlist = JSON.parse(localStorage.getItem('wm_wishlist')) || [];
+    const exists = wishlist.find(w => w.id === productId);
+    if (!exists) {
+      wishlist.push(item);
+      localStorage.setItem('wm_wishlist', JSON.stringify(wishlist));
+    }
+    removeFromCart(productId);
+    updateCartBadge();
+    renderCartItems();
+    showToast("Moved to Wishlist ❤️", [], 2000);
   }
 }
 
