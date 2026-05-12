@@ -335,9 +335,10 @@ function renderProductGrid(filter = "All") {
     .map(
       (product) => `
     <div class="product-card">
-      <img src="${product.image}" alt="${product.name}" class="product-image">
+      <div class="product-image-wrapper">
+        <img src="${product.image}" alt="${product.name}" class="product-image">
+      </div>
       <div class="product-info">
-        <span class="product-category">${product.category}</span>
         <h3 class="product-name">${product.name}</h3>
         <p class="product-price">₹${product.price}</p>
         <button class="product-btn" onclick="navigateToURL('product.html', {id: ${product.id}})">View Details</button>
@@ -418,9 +419,10 @@ function loadShopPage() {
         .map(
           (product) => `
         <div class="product-card">
-          <img src="${product.image}" alt="${product.name}" class="product-image">
+          <div class="product-image-wrapper">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+          </div>
           <div class="product-info">
-            <span class="product-category">${product.category}</span>
             <h3 class="product-name">${product.name}</h3>
             <p class="product-price">₹${product.price}</p>
             <button class="product-btn" onclick="navigateToURL('product.html', {id: ${product.id}})">View Details</button>
