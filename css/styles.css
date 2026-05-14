@@ -602,25 +602,25 @@ p {
 
 .product-card {
   background: var(--bg-card);
-  border-radius: 0;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   transition: all var(--transition-smooth);
-  border: none;
+  border: 1px solid #f0f0f0;
 }
 
 .product-card:hover {
-  box-shadow: none;
-  transform: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
 }
 
 .product-card:hover .product-image {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .product-image-wrapper {
   width: 100%;
-  height: 220px;
+  height: 180px;
   background: #f9f9f9;
   display: flex;
   align-items: center;
@@ -631,22 +631,20 @@ p {
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
   transition: transform 0.4s ease;
-  padding: 8px;
-  box-sizing: border-box;
 }
 
 .product-info {
-  padding: 0.8rem 0.3rem;
+  padding: 0.7rem 0.8rem 0.8rem;
 }
 
 .product-name {
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   margin-bottom: 0.3rem;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-primary);
   line-height: 1.3;
 }
@@ -656,29 +654,27 @@ p {
 }
 
 .product-price {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  margin-bottom: 0.6rem;
 }
 
 .product-btn {
   width: 100%;
-  background: transparent;
-  color: var(--text-primary);
-  padding: 0.6rem;
-  border-radius: 0;
-  font-weight: 600;
+  background: var(--accent-primary);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-weight: 500;
   font-size: 0.8rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  border: 1px solid var(--text-primary);
+  border: none;
   transition: all var(--transition-smooth);
+  cursor: pointer;
 }
 
 .product-btn:hover {
-  background: var(--text-primary);
-  color: white;
+  background: #b8956a;
   box-shadow: none;
 }
 
@@ -1321,7 +1317,7 @@ p {
 
   /* Smaller image height on mobile */
   .product-image-wrapper {
-    height: 160px;
+    height: 140px;
   }
 
   .footer-content {
